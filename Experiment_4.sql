@@ -1,74 +1,124 @@
-create database E_commerce;
-
-use E_commerce;
-
-create table Users
-(U_id int primary key,
-name varchar(50) unique not null,
-email varchar (50) unique);
-
-create table Orders(
-order_no int primary key,
-order_amount float ,
-order_date int not null,
-foreign key (U_id) references Users(U_id));
-
-create table Product
-(p_id int primary key,
-name varchar (50) unique ,
-price float ,
-order_no int,
-description varchar (100) ,
-foreign key (order_no) references Product(p_id));
-
-create table product_category
-(c_id int primary key,
-name varchar (50) unique,
-p_id int,
-foreign key (p_id) references product_category(c_id));
-
-create table payment
-(n_id int primary key,
-method varchar (50) unique not null,
-amount float not null,
-U_id int,
-foreign key (U_id) references payment(n_id));
-
-create table address
-(a_id int primary key,
-country varchar (50) unique not null,
-state varchar (50) unique not null,
-city varchar (50) not null,
-U_id int,
-foreign key (U_id) references address(a_id));
-
-create table Tracking_Details
-(t_id int primary key,
-status varchar (50) ,
-order_no int,
-foreign key (order_no) references Tracking_Details(t_id));
-
-create table cart
-(cart_id int primary key,
-u_id int,
-p_id int,
-foreign key (p_id) references cart(cart_id));
+CREATE DATABASE hospital_db;
 
 
-desc users;
-desc orders;
-desc product;
-desc product_category;
+USE hospital_db;
 
 
 
+CREATE TABLE Hospital (
+    hospital_id INT PRIMARY KEY,
+    hospital_name VARCHAR(100) NOT NULL,
+    address VARCHAR(200),
+    phone VARCHAR(15) UNIQUE,
+    email VARCHAR(100) UNIQUE
+);
 
 
 
+CREATE TABLE Department (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL,
+    location VARCHAR(100),
+    hospital_id INT,
+
+    FOREIGN KEY (hospital_id)
+        REFERENCES Hospital(hospital_id)
+);
+
+
+CREATE TABLE Doctor (
+    doctor_id INT PRIMARY KEY,
+    doctor_name VARCHAR(100) NOT NULL,
+    specialization VARCHAR(100),
+    phone VARCHAR(15) UNIQUE,
+    email VARCHAR(100) UNIQUE,
+    department_id INT,
+
+    FOREIGN KEY (department_id)
+        REFERENCES Department(department_id)
+);
 
 
 
+CREATE TABLE Patient (
+    patient_id INT PRIMARY KEY,
+    patient_name VARCHAR(100) NOT NULL,
+    age INT,
+    gender VARCHAR(10),
+    phone VARCHAR(15),
+    address VARCHAR(200),
+    blood_group VARCHAR(5)
+);
 
+
+
+CREATE TABLE Records (
+    record_id INT PRIMARY KEY,
+    patient_id INT,
+    doctor_id INT,
+    admission_date DATE,
+    discharge_date DATE,
+    disease VARCHAR(150),
+    diagnosis VARCHAR(200),
+    treatment VARCHAR(200),
+
+    FOREIGN KEY (patient_id)
+        REFERENCES Patient(patient_id),
+
+    FOREIGN KEY (doctor_id)
+        REFERENCES Doctor(doctor_id)
+);
+-- Hospital
+INSERT INTO Hospital
+VALUES
+(1, 'City Care Hospital', 'Mumbai', '9876543210', 'citycare@gmail.com'),
+(2, 'Apollo Health Center', 'Pune', '9876543211', 'apollo@gmail.com');
+
+
+-- Department
+INSERT INTO Department
+VALUES
+(101, 'Cardiology', 'First Floor', 1),
+(102, 'Neurology', 'Second Floor', 1),
+(103, 'Orthopedics', 'Ground Floor', 2);
+
+
+-- Doctor
+INSERT INTO Doctor
+VALUES
+(201, 'Dr. Rahul Sharma', 'Cardiologist', '9000000001', 'rahul@gmail.com', 101),
+(202, 'Dr. Priya Patel', 'Neurologist', '9000000002', 'priya@gmail.com', 102),
+(203, 'Dr. Amit Verma', 'Orthopedic Surgeon', '9000000003', 'amit@gmail.com', 103);
+
+
+-- Patient
+INSERT INTO Patient
+VALUES
+(301, 'Aalok Rao', 20, 'Male', '9000000011', 'Mumbai', 'O+'),
+(302, 'Riya Shah', 25, 'Female', '9000000012', 'Pune', 'A+'),
+(303, 'Karan Mehta', 35, 'Male', '9000000013', 'Nashik', 'B+');
+
+
+-- Records
+INSERT INTO Records
+VALUES
+(401, 301, 201, '2026-08-01', '2026-08-05',
+ 'Chest Pain', 'Heart-related problem', 'Medication and observation'),
+
+(402, 302, 202, '2026-08-03', '2026-08-07',
+ 'Headache', 'Migraine', 'Medication'),
+
+(403, 303, 203, '2026-08-10', '2026-08-15',
+ 'Leg Pain', 'Fracture', 'Surgery and physiotherapy');
+ SELECT * FROM Hospital;
+
+SELECT * FROM Department;
+
+SELECT * FROM Doctor;
+
+SELECT * FROM Patient;
+
+SELECT * FROM Records;
 
 
 
