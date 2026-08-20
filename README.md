@@ -1,2 +1,3 @@
 The database is created using CREATE DATABASE hospital_db. The Hospital table stores hospital name, address, phone number, and email. The Department table stores department name, location, and hospital information. The Doctor table stores doctor name, specialization, phone, email, and department. The Patient table stores patient name, age, gender, phone, address, and blood group. The Records table stores patient admission, discharge, disease, diagnosis, and treatment details. in end we can read all the tables by select * from name.
-![Uploading image.png…]()
+<img width="1414" height="982" alt="image" src="https://github.com/user-attachments/assets/2533fea3-f2c1-405b-859e-2753308ca50e" />
+
